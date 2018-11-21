@@ -332,6 +332,12 @@ public class UtilsComponent
 		return component;
 	}
 
+	public static <T extends Container> T setLayout(T component, LayoutManager layout)
+	{
+		component.setLayout(layout);
+		return component;
+	}
+
 	public static <T extends Component> T setPreferredSize(T component, int width, int height)
 	{
 		component.setPreferredSize(new Dimension(width, height));
