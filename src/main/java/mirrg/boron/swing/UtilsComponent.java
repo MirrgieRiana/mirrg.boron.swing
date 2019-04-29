@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
@@ -46,6 +47,8 @@ public class UtilsComponent
 		return t;
 	}
 
+	////////////////////////////// component creator
+
 	// Button
 
 	public static JButton createButton(String text)
@@ -69,6 +72,8 @@ public class UtilsComponent
 		button.setText(text);
 		return button;
 	}
+
+	////////////////////////////// menubar
 
 	// MenuBar
 
@@ -105,71 +110,12 @@ public class UtilsComponent
 		return menuItem;
 	}
 
-	// SplitPane
-
-	public static Component createSplitPaneHorizontal(Component... components)
+	public static JMenuItem createMenuItem(Action action)
 	{
-		return createSplitPaneHorizontal(Arrays.asList(components));
+		return new JMenuItem(action);
 	}
 
-	public static Component createSplitPaneHorizontal(List<Component> components)
-	{
-		if (components.size() == 1) return components.get(0);
-		return new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
-			components.get(0),
-			createSplitPaneHorizontal(components.subList(1, components.size())));
-	}
-
-	public static JSplitPane createSplitPaneHorizontal(Component c1, Component c2)
-	{
-		return new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, c1, c2);
-	}
-
-	public static JSplitPane createSplitPaneHorizontal(double resizeWeight, Component c1, Component c2)
-	{
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, c1, c2);
-		splitPane.setResizeWeight(resizeWeight);
-		return splitPane;
-	}
-
-	public static Component createSplitPaneVertical(Component... components)
-	{
-		return createSplitPaneVertical(Arrays.asList(components));
-	}
-
-	public static Component createSplitPaneVertical(List<Component> components)
-	{
-		if (components.size() == 1) return components.get(0);
-		return new JSplitPane(JSplitPane.VERTICAL_SPLIT, true,
-			components.get(0),
-			createSplitPaneVertical(components.subList(1, components.size())));
-	}
-
-	public static JSplitPane createSplitPaneVertical(Component c1, Component c2)
-	{
-		return new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, c1, c2);
-	}
-
-	public static JSplitPane createSplitPaneVertical(double resizeWeight, Component c1, Component c2)
-	{
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, c1, c2);
-		splitPane.setResizeWeight(resizeWeight);
-		return splitPane;
-	}
-
-	// ScrollPane
-
-	public static JScrollPane createScrollPane(Component component)
-	{
-		return new JScrollPane(component);
-	}
-
-	public static JScrollPane createScrollPane(Component component, int width, int height)
-	{
-		JScrollPane scrollPane = new JScrollPane(component);
-		scrollPane.setPreferredSize(new Dimension(width, height));
-		return scrollPane;
-	}
+	////////////////////////////// container creator
 
 	// Panel
 
@@ -180,9 +126,10 @@ public class UtilsComponent
 		return panel;
 	}
 
-	public static JPanel createPanel(Component... components)
+	public static JPanel createPanel(LayoutManager layout, Component... components)
 	{
 		JPanel panel = new JPanel();
+		panel.setLayout(layout);
 		Stream.of(components)
 			.forEach(panel::add);
 		return panel;
@@ -193,6 +140,11 @@ public class UtilsComponent
 		JPanel panel = new JPanel();
 		components.forEach(panel::add);
 		return panel;
+	}
+
+	public static JPanel createPanel(Component... components)
+	{
+		return createPanelCard(components);
 	}
 
 	// PanelBorder
@@ -301,14 +253,23 @@ public class UtilsComponent
 		return panel;
 	}
 
-	// Botder Panel
+	// other Panel
+
+	public static JPanel createPanelCard(Component... components)
+	{
+		return createPanel(new CardLayout(), components);
+	}
+
+	public static JPanel createPanelFlow(Component... components)
+	{
+		return createPanel(new FlowLayout(), components);
+	}
 
 	public static JPanel createPanelMargin(int top, int left, int bottom, int right, Component component)
 	{
-		JPanel panel = createPanel(component);
-		panel.setLayout(new CardLayout());
-		panel.setBorder(new EmptyBorder(top, left, bottom, right));
-		return panel;
+		return get(createPanelCard(component), c -> {
+			c.setBorder(new EmptyBorder(top, left, bottom, right));
+		});
 	}
 
 	public static JPanel createPanelMargin(int margin, Component component)
@@ -318,13 +279,78 @@ public class UtilsComponent
 
 	public static JPanel createPanelTitledBorder(String title, Component component)
 	{
-		JPanel panel = createPanel(component);
-		panel.setLayout(new CardLayout());
-		panel.setBorder(new TitledBorder(title));
-		return panel;
+		return get(createPanelCard(component), c -> {
+			c.setBorder(new TitledBorder(title));
+		});
 	}
 
-	// properties
+	// SplitPane
+
+	public static Component createSplitPaneHorizontal(Component... components)
+	{
+		return createSplitPaneHorizontal(Arrays.asList(components));
+	}
+
+	public static Component createSplitPaneHorizontal(List<Component> components)
+	{
+		if (components.size() == 1) return components.get(0);
+		return new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
+			components.get(0),
+			createSplitPaneHorizontal(components.subList(1, components.size())));
+	}
+
+	public static JSplitPane createSplitPaneHorizontal(Component c1, Component c2)
+	{
+		return new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, c1, c2);
+	}
+
+	public static JSplitPane createSplitPaneHorizontal(double resizeWeight, Component c1, Component c2)
+	{
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, c1, c2);
+		splitPane.setResizeWeight(resizeWeight);
+		return splitPane;
+	}
+
+	public static Component createSplitPaneVertical(Component... components)
+	{
+		return createSplitPaneVertical(Arrays.asList(components));
+	}
+
+	public static Component createSplitPaneVertical(List<Component> components)
+	{
+		if (components.size() == 1) return components.get(0);
+		return new JSplitPane(JSplitPane.VERTICAL_SPLIT, true,
+			components.get(0),
+			createSplitPaneVertical(components.subList(1, components.size())));
+	}
+
+	public static JSplitPane createSplitPaneVertical(Component c1, Component c2)
+	{
+		return new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, c1, c2);
+	}
+
+	public static JSplitPane createSplitPaneVertical(double resizeWeight, Component c1, Component c2)
+	{
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, c1, c2);
+		splitPane.setResizeWeight(resizeWeight);
+		return splitPane;
+	}
+
+	// ScrollPane
+
+	public static JScrollPane createScrollPane(Component component)
+	{
+		return new JScrollPane(component);
+	}
+
+	public static JScrollPane createScrollPane(Component component, int width, int height)
+	{
+		JScrollPane scrollPane = new JScrollPane(component);
+		scrollPane.setPreferredSize(new Dimension(width, height));
+		return scrollPane;
+	}
+
+	////////////////////////////// properties
 
 	public static <T extends AbstractButton> T setButtonMargin(T component, int top, int left, int bottom, int right)
 	{
@@ -361,7 +387,7 @@ public class UtilsComponent
 		return component;
 	}
 
-	// listener adder
+	////////////////////////////// listener adder
 
 	public static <T extends AbstractButton> T addActionListener(T component, ActionListener listener)
 	{
@@ -375,7 +401,7 @@ public class UtilsComponent
 		return component;
 	}
 
-	// specialized event method hooker
+	////////////////////////////// specialized event method hooker
 
 	public static <T extends Component> T hookMouseRightClick(T component, Consumer<MouseEvent> listener)
 	{
@@ -444,6 +470,8 @@ public class UtilsComponent
 		});
 		return textComponent;
 	}
+
+	////////////////////////////// other
 
 	/**
 	 * 表形式の {@link GroupLayout} を生成します。
