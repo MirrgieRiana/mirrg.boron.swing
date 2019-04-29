@@ -231,9 +231,14 @@ public class UtilsComponent
 		return createPanel(new CardLayout(), component);
 	}
 
+	public static JPanel createPanelFlow(int gap, Component... components)
+	{
+		return createPanel(new FlowLayout(FlowLayout.CENTER, gap, gap), components);
+	}
+
 	public static JPanel createPanelFlow(Component... components)
 	{
-		return createPanel(new FlowLayout(), components);
+		return createPanelFlow(5, components);
 	}
 
 	public static JPanel createPanelMargin(int top, int left, int bottom, int right, Component component)
