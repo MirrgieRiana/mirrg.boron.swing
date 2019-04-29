@@ -100,35 +100,25 @@ public class UtilsComponent
 
 	// PanelBorder
 
-	public static Component createPanelBorderUp(Component... components)
-	{
-		return createPanelBorderUp(Arrays.asList(components));
-	}
-
-	public static Component createPanelBorderUp(List<Component> components)
+	private static Component createPanelBorderUp(int gap, List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = createPanel(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(gap, gap));
 		panel.add(components.get(0), BorderLayout.NORTH);
 		{
-			Component component = createPanelBorderUp(components.subList(1, components.size()));
+			Component component = createPanelBorderUp(gap, components.subList(1, components.size()));
 			if (component != null) panel.add(component, BorderLayout.CENTER);
 		}
 
 		return panel;
 	}
 
-	public static Component createPanelBorderDown(Component... components)
-	{
-		return createPanelBorderDown(Arrays.asList(components));
-	}
-
-	public static Component createPanelBorderDown(List<Component> components)
+	private static Component createPanelBorderDown(int gap, List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = createPanel(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(gap, gap));
 		{
-			Component component = createPanelBorderDown(components.subList(0, components.size() - 1));
+			Component component = createPanelBorderDown(gap, components.subList(0, components.size() - 1));
 			if (component != null) panel.add(component, BorderLayout.CENTER);
 		}
 		panel.add(components.get(components.size() - 1), BorderLayout.SOUTH);
@@ -136,35 +126,25 @@ public class UtilsComponent
 		return panel;
 	}
 
-	public static Component createPanelBorderLeft(Component... components)
-	{
-		return createPanelBorderLeft(Arrays.asList(components));
-	}
-
-	public static Component createPanelBorderLeft(List<Component> components)
+	private static Component createPanelBorderLeft(int gap, List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = createPanel(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(gap, gap));
 		panel.add(components.get(0), BorderLayout.WEST);
 		{
-			Component component = createPanelBorderLeft(components.subList(1, components.size()));
+			Component component = createPanelBorderLeft(gap, components.subList(1, components.size()));
 			if (component != null) panel.add(component, BorderLayout.CENTER);
 		}
 
 		return panel;
 	}
 
-	public static Component createPanelBorderRight(Component... components)
-	{
-		return createPanelBorderRight(Arrays.asList(components));
-	}
-
-	public static Component createPanelBorderRight(List<Component> components)
+	private static Component createPanelBorderRight(int gap, List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = createPanel(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(gap, gap));
 		{
-			Component component = createPanelBorderRight(components.subList(0, components.size() - 1));
+			Component component = createPanelBorderRight(gap, components.subList(0, components.size() - 1));
 			if (component != null) panel.add(component, BorderLayout.CENTER);
 		}
 		panel.add(components.get(components.size() - 1), BorderLayout.EAST);
@@ -172,9 +152,29 @@ public class UtilsComponent
 		return panel;
 	}
 
-	public static JPanel createPanelBorderVertical(Component top, Component middle, Component bottom)
+	public static Component createPanelBorderUp(int gap, Component... components)
 	{
-		JPanel panel = createPanel(new BorderLayout(4, 4));
+		return createPanelBorderUp(gap, Arrays.asList(components));
+	}
+
+	public static Component createPanelBorderDown(int gap, Component... components)
+	{
+		return createPanelBorderDown(gap, Arrays.asList(components));
+	}
+
+	public static Component createPanelBorderLeft(int gap, Component... components)
+	{
+		return createPanelBorderLeft(gap, Arrays.asList(components));
+	}
+
+	public static Component createPanelBorderRight(int gap, Component... components)
+	{
+		return createPanelBorderRight(gap, Arrays.asList(components));
+	}
+
+	public static JPanel createPanelBorderVertical(int gap, Component top, Component middle, Component bottom)
+	{
+		JPanel panel = createPanel(new BorderLayout(gap, gap));
 
 		if (top != null) panel.add(top, BorderLayout.NORTH);
 		if (middle != null) panel.add(middle, BorderLayout.CENTER);
@@ -183,15 +183,45 @@ public class UtilsComponent
 		return panel;
 	}
 
-	public static JPanel createPanelBorderHorizontal(Component left, Component center, Component right)
+	public static JPanel createPanelBorderHorizontal(int gap, Component left, Component center, Component right)
 	{
-		JPanel panel = createPanel(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(gap, gap));
 
 		if (left != null) panel.add(left, BorderLayout.WEST);
 		if (center != null) panel.add(center, BorderLayout.CENTER);
 		if (right != null) panel.add(right, BorderLayout.EAST);
 
 		return panel;
+	}
+
+	public static Component createPanelBorderUp(Component... components)
+	{
+		return createPanelBorderUp(4, components);
+	}
+
+	public static Component createPanelBorderDown(Component... components)
+	{
+		return createPanelBorderDown(4, components);
+	}
+
+	public static Component createPanelBorderLeft(Component... components)
+	{
+		return createPanelBorderLeft(4, components);
+	}
+
+	public static Component createPanelBorderRight(Component... components)
+	{
+		return createPanelBorderRight(4, components);
+	}
+
+	public static JPanel createPanelBorderVertical(Component top, Component middle, Component bottom)
+	{
+		return createPanelBorderVertical(4, top, middle, bottom);
+	}
+
+	public static JPanel createPanelBorderHorizontal(Component left, Component center, Component right)
+	{
+		return createPanelBorderHorizontal(4, left, center, right);
 	}
 
 	// other Panel
