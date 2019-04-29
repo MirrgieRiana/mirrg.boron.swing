@@ -77,32 +77,25 @@ public class UtilsComponent
 
 	// Panel
 
-	public static JPanel createPanel(Consumer<JPanel> initializer)
+	public static JPanel createPanel(LayoutManager layout)
 	{
 		JPanel panel = new JPanel();
-		initializer.accept(panel);
+		panel.setLayout(layout);
+		panel.setOpaque(false);
 		return panel;
 	}
 
 	public static JPanel createPanel(LayoutManager layout, Component... components)
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(layout);
+		JPanel panel = createPanel(layout);
 		Stream.of(components)
 			.forEach(panel::add);
 		return panel;
 	}
 
-	public static JPanel createPanel(List<Component> components)
+	public static JPanel createPanel()
 	{
-		JPanel panel = new JPanel();
-		components.forEach(panel::add);
-		return panel;
-	}
-
-	public static JPanel createPanel(Component... components)
-	{
-		return createPanelCard(components);
+		return createPanel(new CardLayout());
 	}
 
 	// PanelBorder
@@ -115,9 +108,7 @@ public class UtilsComponent
 	public static Component createPanelBorderUp(List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = new JPanel();
-
-		panel.setLayout(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(4, 4));
 		panel.add(components.get(0), BorderLayout.NORTH);
 		{
 			Component component = createPanelBorderUp(components.subList(1, components.size()));
@@ -135,9 +126,7 @@ public class UtilsComponent
 	public static Component createPanelBorderDown(List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = new JPanel();
-
-		panel.setLayout(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(4, 4));
 		{
 			Component component = createPanelBorderDown(components.subList(0, components.size() - 1));
 			if (component != null) panel.add(component, BorderLayout.CENTER);
@@ -155,9 +144,7 @@ public class UtilsComponent
 	public static Component createPanelBorderLeft(List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = new JPanel();
-
-		panel.setLayout(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(4, 4));
 		panel.add(components.get(0), BorderLayout.WEST);
 		{
 			Component component = createPanelBorderLeft(components.subList(1, components.size()));
@@ -175,9 +162,7 @@ public class UtilsComponent
 	public static Component createPanelBorderRight(List<Component> components)
 	{
 		if (components.size() == 1) return components.get(0);
-		JPanel panel = new JPanel();
-
-		panel.setLayout(new BorderLayout(4, 4));
+		JPanel panel = createPanel(new BorderLayout(4, 4));
 		{
 			Component component = createPanelBorderRight(components.subList(0, components.size() - 1));
 			if (component != null) panel.add(component, BorderLayout.CENTER);
@@ -189,9 +174,8 @@ public class UtilsComponent
 
 	public static JPanel createPanelBorderVertical(Component top, Component middle, Component bottom)
 	{
-		JPanel panel = new JPanel();
+		JPanel panel = createPanel(new BorderLayout(4, 4));
 
-		panel.setLayout(new BorderLayout(4, 4));
 		if (top != null) panel.add(top, BorderLayout.NORTH);
 		if (middle != null) panel.add(middle, BorderLayout.CENTER);
 		if (bottom != null) panel.add(bottom, BorderLayout.SOUTH);
@@ -201,9 +185,8 @@ public class UtilsComponent
 
 	public static JPanel createPanelBorderHorizontal(Component left, Component center, Component right)
 	{
-		JPanel panel = new JPanel();
+		JPanel panel = createPanel(new BorderLayout(4, 4));
 
-		panel.setLayout(new BorderLayout(4, 4));
 		if (left != null) panel.add(left, BorderLayout.WEST);
 		if (center != null) panel.add(center, BorderLayout.CENTER);
 		if (right != null) panel.add(right, BorderLayout.EAST);
@@ -213,9 +196,9 @@ public class UtilsComponent
 
 	// other Panel
 
-	public static JPanel createPanelCard(Component... components)
+	public static JPanel createPanelCard(Component component)
 	{
-		return createPanel(new CardLayout(), components);
+		return createPanel(new CardLayout(), component);
 	}
 
 	public static JPanel createPanelFlow(Component... components)
