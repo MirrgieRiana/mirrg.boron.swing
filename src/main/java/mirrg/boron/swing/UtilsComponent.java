@@ -73,48 +73,6 @@ public class UtilsComponent
 		return button;
 	}
 
-	////////////////////////////// menubar
-
-	// MenuBar
-
-	public static JMenuBar createMenuBar(Component... components)
-	{
-		JMenuBar menuBar = new JMenuBar();
-		for (Component component : components) {
-			menuBar.add(component);
-		}
-		return menuBar;
-	}
-
-	/**
-	 * @param components
-	 *            nullの場合、セパレータを追加します。
-	 */
-	public static JMenu createMenu(String text, Component... components)
-	{
-		JMenu menu = new JMenu(text);
-		for (Component component : components) {
-			if (component == null) {
-				menu.addSeparator();
-			} else {
-				menu.add(component);
-			}
-		}
-		return menu;
-	}
-
-	public static JMenuItem createMenuItem(String text, ActionListener actionListener)
-	{
-		JMenuItem menuItem = new JMenuItem(text);
-		menuItem.addActionListener(actionListener);
-		return menuItem;
-	}
-
-	public static JMenuItem createMenuItem(Action action)
-	{
-		return new JMenuItem(action);
-	}
-
 	////////////////////////////// container creator
 
 	// Panel
@@ -348,6 +306,48 @@ public class UtilsComponent
 		JScrollPane scrollPane = new JScrollPane(component);
 		scrollPane.setPreferredSize(new Dimension(width, height));
 		return scrollPane;
+	}
+
+	////////////////////////////// menubar
+
+	// MenuBar
+
+	public static JMenuBar createMenuBar(Component... components)
+	{
+		JMenuBar menuBar = new JMenuBar();
+		for (Component component : components) {
+			menuBar.add(component);
+		}
+		return menuBar;
+	}
+
+	/**
+	 * @param components
+	 *            nullの場合、セパレータを追加します。
+	 */
+	public static JMenu createMenu(String text, Component... components)
+	{
+		JMenu menu = new JMenu(text);
+		for (Component component : components) {
+			if (component == null) {
+				menu.addSeparator();
+			} else {
+				menu.add(component);
+			}
+		}
+		return menu;
+	}
+
+	public static JMenuItem createMenuItem(String text, ActionListener actionListener)
+	{
+		JMenuItem menuItem = new JMenuItem(text);
+		menuItem.addActionListener(actionListener);
+		return menuItem;
+	}
+
+	public static JMenuItem createMenuItem(Action action)
+	{
+		return new JMenuItem(action);
 	}
 
 	////////////////////////////// properties
